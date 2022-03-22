@@ -1,0 +1,59 @@
+<template>
+    <div if:true={userPhotoUrl} class="slds-align_absolute-center slds-p-around_large">
+        <img style="border-radius:50%;border:1px solid #d2caca;" src={userPhotoUrl} alt="Photo"/>
+    </div>
+
+    <template if:true={isEdit}>
+        <lightning-record-edit-form
+            object-api-name="User"
+            record-id={userId}
+            class="slds-p-left_large slds-p-right_large">
+
+            <lightning-messages></lightning-messages>
+
+            <lightning-input-field field-name={firstNameField} onchange={handleFieldChange}></lightning-input-field>
+            <lightning-input-field field-name={lastNameField} disabled="true"></lightning-input-field>
+            <lightning-input-field field-name={emailField} onchange={handleFieldChange}></lightning-input-field>
+            <lightning-input-field field-name={phoneField} value={overridePhone} onchange={handleFieldChange}></lightning-input-field>
+            <lightning-input-field field-name={streetField} onchange={handleFieldChange}></lightning-input-field>
+            <lightning-input-field field-name={cityField} onchange={handleFieldChange}></lightning-input-field>
+            <lightning-input-field field-name={postalCodeField} onchange={handleFieldChange}></lightning-input-field>
+            <lightning-input-field field-name={countryField} onchange={handleFieldChange}></lightning-input-field>
+
+            <div class="slds-align_absolute-center slds-m-top_medium">
+                <lightning-button class="slds-m-right_small" variant="brand" type="submit" name="Save" label="Save" onclick={handleSave} disabled={isDisabled}>
+                </lightning-button>
+                <lightning-button class="slds-m-right_small" variant="brand" name="manualEntry" label="Enter Manually" onchange={handleFieldChange}>
+                </lightning-button>
+                <button class="slds-button slds-button_neutral slds-m-right_small" onclick={handleRetrieve}>
+                    <img src={myInfoLogoUrl} style="height:20px" class="slds-p-left_xx-small">
+                </button>
+                <lightning-button variant="neutral" name="Cancel" label="Cancel" onclick={handleCancel}>
+                </lightning-button>
+            </div>
+        </lightning-record-edit-form>
+    </template>
+        
+    <template if:false={isEdit}>
+        <lightning-record-view-form 
+            object-api-name="User"
+            record-id={userId}
+            mode="readonly"
+            onload={handleFormLoaded}>
+            <lightning-output-field field-name={nameField}></lightning-output-field>
+            <lightning-output-field field-name={emailField}></lightning-output-field>
+            <lightning-output-field field-name={phoneField}></lightning-output-field>
+            <lightning-output-field field-name={addressField}></lightning-output-field>
+            <lightning-output-field style="display: none;" field-name={photoUrlField}></lightning-output-field>
+        </lightning-record-view-form>
+
+        <lightning-button
+            class="slds-m-top_small"
+            variant="brand"
+            name="Edit"
+            label="Edit"
+            onclick={handleEdit}>
+        </lightning-button>
+    </template>  
+
+</template>
